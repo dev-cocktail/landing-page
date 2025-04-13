@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Лендинг</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <header>
+      <nav>
+        <ul>
+          <li><a href="#hero">Hero</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="#pay-form">Pay Form</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <section id="hero">
+      <h1>Welcome to Our Service!</h1>
+      <p>Here is a brief introduction to what we offer.</p>
+    </section>
+
+    <section id="about">
+      <h2>About Us</h2>
+      <p>Learn more about our company and values.</p>
+    </section>
+
+    <section id="pay-form">
+      <h2>Payment Form</h2>
+      <p>Fill in your payment details below:</p>
+      <form>
+        <!-- форма оплаты -->
+      </form>
+    </section>
+
+    <footer>
+      <p>© 2025 Company Name. All rights reserved.</p>
+    </footer>
+
+    <script>
+      document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+        anchor.addEventListener("click", function (e) {
+          e.preventDefault();
+
+          document.querySelector(this.getAttribute("href")).scrollIntoView({
+            behavior: "smooth",
+          });
+        });
+      });
+    </script>
+  </body>
+</html>
