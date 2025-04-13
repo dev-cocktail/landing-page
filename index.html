@@ -4,7 +4,141 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Лендинг</title>
-    <link rel="stylesheet" href="./style.css" />
+    <style>
+      /* Общие стили для всего сайта */
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f4f4f4;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      /* Стики хедер */
+      header {
+        width: 100%;
+        background-color: #333;
+        color: white;
+        padding: 10px 0;
+        text-align: center;
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+      }
+
+      /* Стили для навигации */
+      header nav ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        align-items: flex-start;
+      }
+
+      header nav ul li {
+        margin: 10px 0;
+        padding-left: 20px; /* Добавлен отступ слева для навигации */
+      }
+
+      header nav ul li a {
+        text-decoration: none;
+        color: white;
+        font-weight: bold;
+      }
+
+      header nav ul li a:hover {
+        color: #ddd;
+      }
+
+      /* Стили секций */
+      section {
+        width: 100%;
+        padding: 40px 20px;
+        text-align: center;
+        height: 75vh;
+      }
+
+      #hero {
+        background-color: #f7f7f7;
+      }
+
+      #about {
+        background-color: #e7e7e7;
+      }
+
+      #pay-form {
+        background-color: #fff;
+      }
+
+      footer {
+        width: 100%;
+        background-color: #333;
+        color: white;
+        padding: 10px 0;
+        text-align: center;
+        margin-top: auto;
+      }
+
+      /* Стили для формы */
+      .container {
+        width: 100%;
+        max-width: 400px;
+        background-color: white;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        margin: 0 auto;
+      }
+
+      h2 {
+        text-align: center;
+        margin-bottom: 20px;
+      }
+
+      label {
+        display: block;
+        margin: 10px 0 5px;
+      }
+
+      input {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+      }
+
+      button {
+        width: 100%;
+        padding: 10px;
+        background-color: #4caf50;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+      }
+
+      button:hover {
+        background-color: #45a049;
+      }
+
+      #payment-status {
+        margin-top: 10px;
+        text-align: center;
+        font-weight: bold;
+      }
+
+      .error {
+        color: red;
+      }
+
+      .success {
+        color: green;
+      }
+    </style>
   </head>
   <body>
     <header>
@@ -17,60 +151,92 @@
       </nav>
     </header>
 
-    <!-- Секции подключаются через JavaScript -->
-    <section id="hero"></section>
-    <section id="about"></section>
-    <section id="pay-form"></section>
+    <!-- Секции -->
+    <section id="hero">
+      <h1>Добро пожаловать на наш сайт!</h1>
+      <p>Мы рады видеть вас на нашем лендинге.</p>
+    </section>
+
+    <section id="about">
+      <h2>О нас</h2>
+      <p>
+        Мы предоставляем уникальные товары и услуги, которые сделают вашу жизнь
+        проще и удобнее.
+      </p>
+    </section>
+
+    <section id="pay-form">
+      <div class="container">
+        <h2>Payment Form</h2>
+        <p>Fill in your payment details below:</p>
+        <form id="payment-form">
+          <label for="name">Name on Card:</label>
+          <input type="text" id="name" name="name" required />
+
+          <label for="card-number">Card Number:</label>
+          <input type="text" id="card-number" name="card-number" required />
+
+          <label for="expiry-date">Expiry Date (MM/YY):</label>
+          <input type="text" id="expiry-date" name="expiry-date" required />
+
+          <label for="cvv">CVV:</label>
+          <input type="text" id="cvv" name="cvv" required />
+
+          <button type="submit">Pay</button>
+        </form>
+
+        <p id="payment-status"></p>
+      </div>
+    </section>
 
     <footer>
       <p>© 2025 Company Name. All rights reserved.</p>
     </footer>
 
     <script>
-      // Функция для загрузки контента секции
-      function loadSection(sectionId, fileName) {
-        fetch(fileName)
-          .then((response) => response.text())
-          .then((data) => {
-            document.getElementById(sectionId).innerHTML = data;
-          })
-          .catch((error) => {
-            console.error("Error loading section:", error);
-          });
-      }
-
-      // Загружаем все секции
-      loadSection("hero", "sections/hero.html");
-      loadSection("about", "sections/about.html");
-      loadSection("pay-form", "sections/pay-form.html");
-
-      // Скролл при клике
+      // Функция для плавной прокрутки
       document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
         anchor.addEventListener("click", function (e) {
           e.preventDefault();
-          document.querySelector(this.getAttribute("href")).scrollIntoView({
-            behavior: "smooth",
+          const targetId = this.getAttribute("href").substring(1);
+          const targetElement = document.getElementById(targetId);
+
+          // Прокручиваем к элементу с заданным ID
+          window.scrollTo({
+            top: targetElement.offsetTop - 50, // Скроллим с небольшим отступом
+            behavior: "smooth", // Плавная прокрутка
           });
         });
       });
-    </script>
 
-    <!-- Форма оплаты и JS -->
-    <script>
       // Получаем форму и поля
-      const form = document.getElementById("payment-form");
+      const form = document.getElementByid("payment-form");
       const nameField = document.getElementById("name");
       const cardNumberField = document.getElementById("card-number");
       const expiryDateField = document.getElementById("expiry-date");
       const cvvField = document.getElementById("cvv");
-      const paymentStatus = document.createElement("p");
-      document.body.appendChild(paymentStatus); // Добавляем статус на страницу
+      const paymentStatus = document.getElementById("payment-status");
+
+      // Функция для проверки номера карты (очень простая валидация)
+      function isValidCardNumber(cardNumber) {
+        return /^\d{16}$/.test(cardNumber);
+      }
+
+      // Функция для проверки срока действия карты
+      function isValidExpiryDate(expiryDate) {
+        return /^(0[1-9]|1[0-2])\/\d{2}$/.test(expiryDate);
+      }
+
+      // Функция для проверки CVV (3 цифры)
+      function isValidCVV(cvv) {
+        return /^\d{3}$/.test(cvv);
+      }
 
       // Обработчик отправки формы
       form.addEventListener("submit", function (e) {
         e.preventDefault(); // Отменяем отправку формы
 
-        // Валидация (простая проверка, что все поля заполнены)
+        // Валидация (проверяем, что все поля заполнены и данные корректны)
         if (
           !nameField.value ||
           !cardNumberField.value ||
@@ -78,7 +244,27 @@
           !cvvField.value
         ) {
           paymentStatus.textContent = "Please fill in all the fields.";
-          paymentStatus.style.color = "red";
+          paymentStatus.className = "error";
+          return;
+        }
+
+        if (!isValidCardNumber(cardNumberField.value)) {
+          paymentStatus.textContent =
+            "Invalid card number. It should be 16 digits.";
+          paymentStatus.className = "error";
+          return;
+        }
+
+        if (!isValidExpiryDate(expiryDateField.value)) {
+          paymentStatus.textContent =
+            "Invalid expiry date. Please use MM/YY format.";
+          paymentStatus.className = "error";
+          return;
+        }
+
+        if (!isValidCVV(cvvField.value)) {
+          paymentStatus.textContent = "Invalid CVV. It should be 3 digits.";
+          paymentStatus.className = "error";
           return;
         }
 
@@ -86,7 +272,7 @@
         setTimeout(() => {
           alert("Payment Successful!\n\nThank you for your purchase!");
           paymentStatus.textContent = "Payment Successful!";
-          paymentStatus.style.color = "green";
+          paymentStatus.className = "success";
         }, 1000); // имитация задержки в 1 секунду
       });
     </script>
