@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Лендинг</title>
-    <link rel="stylesheet" href="./styles.css" />
+    <link rel="stylesheet" href="./style.css" />
   </head>
   <body>
     <header>
@@ -17,37 +17,77 @@
       </nav>
     </header>
 
-    <section id="hero">
-      <h1>Welcome to Our Service!</h1>
-      <p>Here is a brief introduction to what we offer.</p>
-    </section>
-
-    <section id="about">
-      <h2>About Us</h2>
-      <p>Learn more about our company and values.</p>
-    </section>
-
-    <section id="pay-form">
-      <h2>Payment Form</h2>
-      <p>Fill in your payment details below:</p>
-      <form>
-        <!-- форма оплаты -->
-      </form>
-    </section>
+    <!-- Секции подключаются через JavaScript -->
+    <section id="hero"></section>
+    <section id="about"></section>
+    <section id="pay-form"></section>
 
     <footer>
       <p>© 2025 Company Name. All rights reserved.</p>
     </footer>
 
     <script>
+      // Функция для загрузки контента секции
+      function loadSection(sectionId, fileName) {
+        fetch(fileName)
+          .then((response) => response.text())
+          .then((data) => {
+            document.getElementById(sectionId).innerHTML = data;
+          })
+          .catch((error) => {
+            console.error("Error loading section:", error);
+          });
+      }
+
+      // Загружаем все секции
+      loadSection("hero", "sections/hero.html");
+      loadSection("about", "sections/about.html");
+      loadSection("pay-form", "sections/pay-form.html");
+
+      // Скролл при клике
       document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
         anchor.addEventListener("click", function (e) {
           e.preventDefault();
-
           document.querySelector(this.getAttribute("href")).scrollIntoView({
             behavior: "smooth",
           });
         });
+      });
+    </script>
+
+    <!-- Форма оплаты и JS -->
+    <script>
+      // Получаем форму и поля
+      const form = document.getElementById("payment-form");
+      const nameField = document.getElementById("name");
+      const cardNumberField = document.getElementById("card-number");
+      const expiryDateField = document.getElementById("expiry-date");
+      const cvvField = document.getElementById("cvv");
+      const paymentStatus = document.createElement("p");
+      document.body.appendChild(paymentStatus); // Добавляем статус на страницу
+
+      // Обработчик отправки формы
+      form.addEventListener("submit", function (e) {
+        e.preventDefault(); // Отменяем отправку формы
+
+        // Валидация (простая проверка, что все поля заполнены)
+        if (
+          !nameField.value ||
+          !cardNumberField.value ||
+          !expiryDateField.value ||
+          !cvvField.value
+        ) {
+          paymentStatus.textContent = "Please fill in all the fields.";
+          paymentStatus.style.color = "red";
+          return;
+        }
+
+        // Имитация успешной оплаты (алерт)
+        setTimeout(() => {
+          alert("Payment Successful!\n\nThank you for your purchase!");
+          paymentStatus.textContent = "Payment Successful!";
+          paymentStatus.style.color = "green";
+        }, 1000); // имитация задержки в 1 секунду
       });
     </script>
   </body>
